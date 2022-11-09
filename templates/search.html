@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if item %}
+<div class="container">
+        {% include 'components/item.html' with item=item %}
+</div>
+{% endif %}
+{% endblock %}

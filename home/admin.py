@@ -5,7 +5,8 @@ from .models import Item
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('title', 'status')
+    list_display = ('id', 'title', 'status')
+    search_fields = ['title']
 
 
 admin.site.register(Item, ItemAdmin)

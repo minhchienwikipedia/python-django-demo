@@ -1,20 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-<nav class="navbar bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Todo List</a>
-    </div>
-</nav>
-{% for item in items %}
-<div class="card" style="width: 18rem;">
-    <img src="{{ item.image_url }}" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">{{ item.title }}</h5>
-        <input class="form-check-input me-1" type="checkbox" value="{{ item.status }}" id="firstCheckbox">
-    </div>
-</div>
-{% endfor %}
+<div class="row">
+    {% for item in items %}
+    {% include 'components/item.html' with item=item %}
+    {% endfor %}
 </div>
 {% endblock %}
