@@ -3,16 +3,10 @@
 {% block content %}
 
 {% if not created %}
+
 <form action="." method="post">
     {% csrf_token %}
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Title</label>
-        <input name="title" class="form-control" id="exampleFormControlInput1" placeholder="...">
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Image URL</label>
-        <input name="image_url" class="form-control" id="exampleFormControlInput1" placeholder="https://...">
-    </div>
+    {{ form.as_p }}
     <div class="col-auto">
         <button type="submit" class="btn btn-primary mb-3">Create</button>
     </div>

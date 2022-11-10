@@ -26,6 +26,15 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="/create/">Create</a>
                         </li>
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/logout">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/login">Login</a>
+                        </li>
+                        {% endif %}
                     </ul>
                     <form class="d-flex" role="search" action="/search/" method="get">
                         <input class="form-control me-2" type="search" placeholder="ID" name="q" aria-label="Search">

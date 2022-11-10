@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.http import HttpResponse
 from .models import Item
+from .forms import ItemForms
 
 # Create your views here.
 
@@ -20,15 +21,15 @@ def item_search_views(request):
     return render(request, 'search.html', context)
 
 
+@login_required
 def item_create_views(request):
-    context = {}
-    if request.method == 'POST':
-        query_dict = request.POST
-        title = query_dict.get('title')
-        image_url = query_dict.get('image_url')
-        new_item = Item.objects.create(title=title, image_url=image_url)
-        context['item'] = new_item
-        context['created'] = True
+    form = ItemForms(request.POST or None)
+    context = {
+        "form": form
+    }
+    if form.is_valid():
+        new_item = form.save()
+        context['form'] = ItemForms()
     return render(request, 'create.html', context)
 
 
