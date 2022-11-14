@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.urls import re_path as url
 from django.contrib import admin
+from django.conf import settings
 from django.urls import path, include
 from accounts.views import login_view, logout_view, register_view
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,3 +27,6 @@ urlpatterns = [
     path('logout/', logout_view),
     path('register/', register_view)
 ]
+
+if settings.DEBUG:
+    urlpatterns += path('__debug__/', include('debug_toolbar.urls')),
