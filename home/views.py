@@ -2,22 +2,30 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Item
 from .forms import ItemForms
+from python_settings import settings
+from django.core.cache import cache
+
 
 # Create your views here.
 
 def item_search_views(request):
     query_dict = request.GET
-    try:
-        query = int(query_dict.get('q'))
-    except:
-        query = None
-    obj = None
-    if query is not None:
+    keyword = query_dict.get('q')
+    cache_key = settings.CACHE_KEY % keyword
+    item_found = cache.get(cache_key)
+    print(item_found)
+    if not item_found:
         try:
-            obj = Item.objects.get(id=query)
-        except Item.DoesNotExist:
-            obj = None
-    context = { 'item': obj }
+            query = int(keyword)
+        except:
+            query = None
+        if query is not None:
+            try:
+                item_found = Item.objects.get(id=query)
+                cache.set(cache_key, item_found, 86400)
+            except Item.DoesNotExist:
+                item_found = None
+    context = {'item': item_found}
     return render(request, 'search.html', context)
 
 

@@ -8,6 +8,9 @@ User = settings.AUTH_USER_MODEL
 
 class ItemType(models.Model):
     name = models.TextField()
+    
+    def __str__(self):
+        return self.name
 
 class Item(models.Model):
     user = models.ForeignKey(
