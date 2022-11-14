@@ -3,6 +3,7 @@
         <img src="{{ item.image_url }}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">Owner: {{ item.user.username }} {% if request.user == item.user %} (You) {% endif %}</p>
             <input class="form-check-input me-1" type="checkbox" value="{{ item.status }}" id="firstCheckbox">
         </div>
     </div>
