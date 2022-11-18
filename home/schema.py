@@ -29,7 +29,53 @@ class Query(graphene.ObjectType):
     def resolve_get_item(root, info, id):
         return Item.objects.get(pk=id)
 
-schema = graphene.Schema(query=Query)
+
+class AddItemMutation(graphene.Mutation):
+    class Arguments:
+        title = graphene.String(required=True)
+
+    item = graphene.Field(ItemType)
+    
+    @classmethod
+    def mutate(cls,root, info, title):
+        item = Item(title=title)
+        item.save()
+        return AddItemMutation(item=item)
+
+class UpdateItemMutation(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+        title = graphene.String(required=True)
+
+    item = graphene.Field(ItemType)
+    
+    @classmethod
+    def mutate(cls,root, info, title, id):
+        item = Item.objects.get(id=id)
+        item.title = title
+        item.save()
+        return UpdateItemMutation(item=item)
+
+
+class DeleteItemMutation(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+
+    item = graphene.Field(ItemType)
+    
+    @classmethod
+    def mutate(cls,root, info, id):
+        item = Item.objects.get(id=id)
+        item.delete()
+        return 
+
+class Mutation(graphene.ObjectType):
+    add_item = AddItemMutation.Field()
+    update_item = UpdateItemMutation.Field()
+    delete_item = DeleteItemMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
 
 # Test query
 # {
